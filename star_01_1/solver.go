@@ -39,5 +39,5 @@ func (s *Solver) Solve() string {
 }
 
 func (s *Solver) CalculateFuel(mass int) int {
-	return int(float64(mass)/3.0) - 2
+	return mass/3.0 - 2
 }

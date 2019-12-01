@@ -39,7 +39,7 @@ func (s *Solver) Solve() string {
 }
 
 func (s *Solver) CalculateFuel(mass int) int {
-	fuel := int(float64(mass)/3.0) - 2
+	fuel := mass/3.0 - 2
 	if fuel < 0 {
 		fuel = 0
 	} else {
