@@ -10,6 +10,10 @@ import (
 
 var solvers []Day
 
+func registerSolvers() {
+	solvers = append(solvers, Day{&star_01_1.Solver{}, nil})
+}
+
 func main() {
 	registerSolvers()
 
@@ -24,7 +28,7 @@ func main() {
 		day, star = getFromInput()
 	}
 
-	fmt.Printf("Solving Day %d Star %d\n=====================\n", day + 1, star)
+	fmt.Printf("Solving Day %d Star %d\n=====================\n", day+1, star)
 	var solver Solver
 	if star == 1 {
 		solver = solvers[day].star1
@@ -32,7 +36,7 @@ func main() {
 		solver = solvers[day].star2
 	}
 
-	fmt.Println(solver.Solve("test"))
+	fmt.Println(solver.Solve())
 }
 
 func getLatest() (int, int) {
@@ -85,11 +89,6 @@ func listSolvers() {
 		if day.star2 != nil {
 			stars += ", 2"
 		}
-		fmt.Printf("Day %d: (%s)\n", i + 1, stars)
+		fmt.Printf("Day %d: (%s)\n", i+1, stars)
 	}
 }
-
-func registerSolvers() {
-	solvers = append(solvers, Day{&star_01_1.Solver{}, nil})
-}
-

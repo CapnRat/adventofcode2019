@@ -1,5 +1,5 @@
 package main
 
 type Solver interface {
-	Solve(string) string
+	Solve() string
 }
