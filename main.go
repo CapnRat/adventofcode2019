@@ -6,12 +6,13 @@ import (
 	"os"
 
 	"github.com/CapnRat/adventofcode2019/star_01_1"
+	"github.com/CapnRat/adventofcode2019/star_01_2"
 )
 
 var solvers []Day
 
 func registerSolvers() {
-	solvers = append(solvers, Day{&star_01_1.Solver{}, nil})
+	solvers = append(solvers, Day{&star_01_1.Solver{}, &star_01_2.Solver{}})
 }
 
 func main() {
