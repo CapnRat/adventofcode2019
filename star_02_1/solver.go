@@ -13,32 +13,18 @@ const file = "star_02_1/input"
 type Solver struct{}
 
 func (s *Solver) Solve () string {
-	bytes, err := ioutil.ReadFile(file)
-	if err != nil {
-		fmt.Println("error reading file")
-		os.Exit(1)
-	}
-
-	input := strings.Split(string(bytes), ",")
-	program := make([]int, len(input))
-	for i, v := range input {
-		program[i], err = strconv.Atoi(v)
-		if err != nil {
-			fmt.Println("error parsing input: ", v)
-			os.Exit(1)
-		}
-	}
+	program := ReadProgramFromFile(file)
 
 	// 1202 program alarm
 	program[1] = 12
 	program[2] = 2
 
-	program = s.RunProgram(program)
+	program = RunProgram(program)
 
 	return strconv.Itoa(program[0])
 }
 
-func (s *Solver) RunProgram(program []int) []int {
+func RunProgram(program []int) []int {
 	for i := 0; i < len(program); i += 4 {
 		op := program[i]
 
@@ -55,4 +41,23 @@ func (s *Solver) RunProgram(program []int) []int {
 	fmt.Println("error unexpected end of program")
 	os.Exit(1)
 	return nil
+}
+
+func ReadProgramFromFile(file string) []int {
+	bytes, err := ioutil.ReadFile(file)
+	if err != nil {
+		fmt.Println("error reading file")
+		os.Exit(1)
+	}
+
+	input := strings.Split(string(bytes), ",")
+	program := make([]int, len(input))
+	for i, v := range input {
+		program[i], err = strconv.Atoi(v)
+		if err != nil {
+			fmt.Println("error parsing input: ", v)
+			os.Exit(1)
+		}
+	}
+	return program
 }

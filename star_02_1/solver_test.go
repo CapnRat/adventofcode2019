@@ -21,8 +21,7 @@ func TestSolver_RunProgram(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := &Solver{}
-			if got := s.RunProgram(tt.args.program); !reflect.DeepEqual(got, tt.want) {
+			if got := RunProgram(tt.args.program); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("RunProgram() = %v, want %v", got, tt.want)
 			}
 		})
