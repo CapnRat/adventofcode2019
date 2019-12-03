@@ -72,10 +72,3 @@ func FindShortestIntersectionDistance(wires []star_03_1.Wire) int {
 
 	return distance
 }
-
-func Abs(x int) int {
-	if x < 0 {
-		return -x
-	}
-	return x
-}
