@@ -27,8 +27,8 @@ type step struct{
 type Wire []step
 
 type Coordinate struct{
-	x int
-	y int
+	X int
+	Y int
 }
 
 type Solver struct{}
@@ -93,18 +93,18 @@ func FindClosestIntersectionDistance (wires []Wire) int {
 			for j := 0; j < step.Length; j++ {
 				switch step.Direction {
 				case Up:
-					cursor.y++
+					cursor.Y++
 				case Down:
-					cursor.y--
+					cursor.Y--
 				case Right:
-					cursor.x++
+					cursor.X++
 				case Left:
-					cursor.x--
+					cursor.X--
 				}
 
 				if visitor, found := visited[cursor]; found && visitor != i {
 					// already visited by another wire
-					cursorDistance := Abs(cursor.x) + Abs(cursor.y)
+					cursorDistance := Abs(cursor.X) + Abs(cursor.Y)
 					if cursorDistance < distance {
 						distance = cursorDistance
 					}

@@ -22,7 +22,7 @@ func TestFindClosestIntersectionDistance(t *testing.T) {
 		{"Example 2", args{[]Wire{
 			BuildWireFromDefinition("R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51"),
 			BuildWireFromDefinition("U98,R91,D20,R16,D67,R40,U7,R15,U6,R7"),
-		}}, 135,
+			}}, 135,
 		},
 	}
 	for _, tt := range tests {
