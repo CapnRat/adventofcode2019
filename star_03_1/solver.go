@@ -17,10 +17,10 @@ const (
 	Right
 	Left
 )
-type direction int
+type Direction int
 
 type step struct{
-	Direction direction
+	Direction Direction
 	Length    int
 }
 

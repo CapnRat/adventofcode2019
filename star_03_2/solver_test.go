@@ -24,6 +24,11 @@ func TestFindClosestIntersectionDistance(t *testing.T) {
 			star_03_1.BuildWireFromDefinition("U98,R91,D20,R16,D67,R40,U7,R15,U6,R7"),
 			}}, 410,
 		},
+		{"Example 3", args{[]star_03_1.Wire{
+			star_03_1.BuildWireFromDefinition("R8,U5,L5,D3"),
+			star_03_1.BuildWireFromDefinition("U7,R6,D4,L4"),
+		}}, 30,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
