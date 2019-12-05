@@ -50,14 +50,19 @@ func ReadProgramFromFile(file string) []int {
 		os.Exit(1)
 	}
 
-	input := strings.Split(string(bytes), ",")
+	return ParseProgram(string(bytes))
+}
+
+func ParseProgram(input string) []int {
+	instructions := strings.Split(input, ",")
 	program := make([]int, len(input))
-	for i, v := range input {
-		program[i], err = strconv.Atoi(v)
+	for i, v := range instructions {
+		instruction, err := strconv.Atoi(v)
 		if err != nil {
-			fmt.Println("error parsing input: ", v)
+			fmt.Println("error parsing program: ", v)
 			os.Exit(1)
 		}
+		program[i] = instruction
 	}
 	return program
 }
