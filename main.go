@@ -14,6 +14,7 @@ import (
 	"github.com/CapnRat/adventofcode2019/star_05_1"
 	"github.com/CapnRat/adventofcode2019/star_05_2"
 	"github.com/CapnRat/adventofcode2019/star_06_1"
+	"github.com/CapnRat/adventofcode2019/star_06_2"
 	"os"
 )
 
@@ -25,7 +26,7 @@ func registerSolvers() {
 	solvers = append(solvers, Day{&star_03_1.Solver{}, &star_03_2.Solver{}})
 	solvers = append(solvers, Day{&star_04_1.Solver{}, &star_04_2.Solver{}})
 	solvers = append(solvers, Day{&star_05_1.Solver{}, &star_05_2.Solver{}})
-	solvers = append(solvers, Day{&star_06_1.Solver{}, nil})
+	solvers = append(solvers, Day{&star_06_1.Solver{}, &star_06_2.Solver{}})
 }
 
 func main() {

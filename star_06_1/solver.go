@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-const file = "star_06_1/input"
+const File = "star_06_1/input"
 
 type Orbit struct{
 	body string
@@ -16,8 +16,8 @@ type Orbit struct{
 }
 
 type Body struct{
-	id string
-	parent *Body
+	id       string
+	Parent   *Body
 	children Children
 }
 
@@ -26,12 +26,20 @@ type Children map[string]*Body
 type Solver struct{}
 
 func (s *Solver) Solve () string {
-	return SolveForFile(file)
+	return SolveForFile(File)
 }
 
 func SolveForFile(input string) string {
 	defs := GetOrbitsFromFile(input)
 
+	com, _ := BuildOrbitTree(defs)
+
+	count := CountOrbits(0, com)
+
+	return strconv.Itoa(count)
+}
+
+func BuildOrbitTree (defs []Orbit) (*Body, map[string]*Body) {
 	bodies := make(map[string]*Body)
 	for _, def := range defs {
 		body, ok := bodies[def.body]
@@ -43,13 +51,13 @@ func SolveForFile(input string) string {
 		if !ok {
 			sat = &Body{def.satellite, body, make(Children)}
 			bodies[sat.id] = sat
+		} else {
+			sat.Parent = body
 		}
 		body.children[sat.id] = sat
 	}
 
-	count := CountOrbits(0, bodies["COM"])
-
-	return strconv.Itoa(count)
+	return bodies["COM"], bodies
 }
 
 func CountOrbits(depth int, body *Body) int {
