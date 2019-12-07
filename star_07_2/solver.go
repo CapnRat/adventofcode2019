@@ -54,7 +54,6 @@ func SolveWithProgram(program []int) string {
 		for i, _ := range channels {
 			channels[i] = make(chan int, 1)
 		}
-		buffer := 0
 		for i := 0; i < programChainLength; i++ {
 			programCopy := append([]int(nil), program...)
 			go RunProgram(programCopy, channels[i], channels[i+1])
@@ -66,6 +65,7 @@ func SolveWithProgram(program []int) string {
 		}
 		channels[0] <- 0
 
+		buffer := 0
 		// capture the out of last program and loop it back
 		for buffer = range channels[programChainLength] {
 			channels[0] <- buffer
@@ -113,8 +113,9 @@ func ValidatePhases(phases *[5]int) bool {
 }
 
 func RunProgram(program []int, input <-chan int, output chan<- int) {
-	// instruction pointer
-	i := 0
+	defer close(output)
+
+	i := 0 // instruction pointer
 	for true {
 		instruction := program[i]
 		op, modes, length := star_05_2.ParseInstruction(instruction)
@@ -166,7 +167,6 @@ func RunProgram(program []int, input <-chan int, output chan<- int) {
 				length = 3
 			}
 		case OpHalt:
-			close(output)
 			return
 		}
 
