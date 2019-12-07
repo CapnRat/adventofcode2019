@@ -75,7 +75,7 @@ func GetOrbitsFromFile(input string) []Orbit {
 		os.Exit(1)
 	}
 
-	defs := strings.Split(string(bytes), "\n")
+	defs := strings.Split(strings.Replace(string(bytes), "\r\n", "\n", -1), "\n")
 	orbits := make([]Orbit, len(defs))
 	for i, def := range defs {
 		bodies := strings.Split(def, ")")
