@@ -1,7 +1,6 @@
 package star_07_2
 
 import (
-	"fmt"
 	"github.com/CapnRat/adventofcode2019/star_02_1"
 	"github.com/CapnRat/adventofcode2019/star_05_2"
 	"strconv"
@@ -42,7 +41,6 @@ func SolveWithProgram(program []int) string {
 	const phaseHeight = 5
 	const phaseOffset = 5
 	phases := [programChainLength]int{}
-	bestPhase := [programChainLength]int{}
 	maxThrust := 0
 	for true {
 		if !UpdatePhases(&phases, phaseHeight) {
@@ -72,14 +70,9 @@ func SolveWithProgram(program []int) string {
 		}
 		close (channels[0])
 		if buffer > maxThrust {
-			for i, phase := range phases {
-				bestPhase[i] = phase + phaseOffset
-			}
 			maxThrust = buffer
 		}
 	}
-
-	fmt.Println("bestPhase", bestPhase)
 
 	return strconv.Itoa(maxThrust)
 }
