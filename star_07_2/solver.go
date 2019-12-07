@@ -3,6 +3,7 @@ package star_07_2
 import (
 	"github.com/CapnRat/adventofcode2019/star_02_1"
 	"github.com/CapnRat/adventofcode2019/star_05_2"
+	"gonum.org/v1/gonum/stat/combin"
 	"strconv"
 )
 
@@ -40,13 +41,10 @@ func SolveWithProgram(program []int) string {
 	const programChainLength = 5
 	const phaseHeight = 5
 	const phaseOffset = 5
-	phases := [programChainLength]int{}
-	maxThrust := 0
-	for true {
-		if !UpdatePhases(&phases, phaseHeight) {
-			break
-		}
 
+	maxThrust := 0
+	perms := combin.Permutations(phaseHeight, programChainLength)
+	for _, phases := range perms {
 		// one extra channel to listen to last -> first signals
 		channels := make([]chan int, programChainLength + 1)
 		for i, _ := range channels {
@@ -75,34 +73,6 @@ func SolveWithProgram(program []int) string {
 	}
 
 	return strconv.Itoa(maxThrust)
-}
-
-func UpdatePhases(phases *[5]int, height int) bool {
-	phases[len(phases) - 1]++
-	for i := len(phases) - 1; i >= 0; i-- {
-		if phases[i] > height - 1 {
-			if i == 0 {
-				return false
-			}
-			phases[i] = 0
-			phases[i - 1]++
-		}
-	}
-	if !ValidatePhases (phases) {
-		return UpdatePhases(phases, height)
-	}
-	return true
-}
-
-func ValidatePhases(phases *[5]int) bool {
-	used := make(map[int]bool)
-	for i := 0; i < len(phases); i++ {
-		if _, ok := used[phases[i]]; ok {
-			return false
-		}
-		used[phases[i]] = true
-	}
-	return true
 }
 
 func RunProgram(program []int, input <-chan int, output chan<- int) {
