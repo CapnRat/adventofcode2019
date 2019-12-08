@@ -33,7 +33,6 @@ func (s *Solver) Solve () string {
 	for i := min; i <= max; i++ {
 		if AreDigitsValid(star_04_1.GetDigitsFromInt(i)) {
 			validCount++
-			fmt.Println("found ", i)
 		}
 	}
 

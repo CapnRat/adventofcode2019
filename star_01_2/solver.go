@@ -33,7 +33,6 @@ func (s *Solver) Solve() string {
 		fuel := s.CalculateFuel(mass)
 
 		total += fuel
-		fmt.Printf("Mass: %d Fuel: %d Total: %d\n", mass, fuel, total)
 	}
 	return strconv.Itoa(total)
 }

@@ -20,6 +20,7 @@ import (
 	"github.com/CapnRat/adventofcode2019/star_08_1"
 	"github.com/CapnRat/adventofcode2019/star_08_2"
 	"os"
+	"time"
 )
 
 var solvers []Day
@@ -39,17 +40,30 @@ func main() {
 	registerSolvers()
 
 	var runLatest bool
+	var runAll bool
 	flag.BoolVar(&runLatest, "latest", false, "just run latest")
+	flag.BoolVar(&runAll, "all", false, "run all solvers")
 	flag.Parse()
 
-	var day, star int
-	if runLatest {
-		day, star = getLatest()
+	if runAll {
+		for i, day := range solvers {
+			RunSolver(i, 1)
+			if day.star2 != nil {
+				RunSolver(i, 2)
+			}
+		}
+	} else if runLatest {
+		RunSolver(getLatest())
 	} else {
-		day, star = getFromInput()
+		RunSolver(getFromInput())
 	}
 
+
+}
+
+func RunSolver(day int, star int) {
 	fmt.Printf("Solving Day %d Star %d\n=====================\n", day+1, star)
+
 	var solver Solver
 	if star == 1 {
 		solver = solvers[day].star1
@@ -57,7 +71,10 @@ func main() {
 		solver = solvers[day].star2
 	}
 
+	start := time.Now()
 	fmt.Println(solver.Solve())
+	elapsed := time.Now().Sub(start)
+	fmt.Printf("Finished after %d µs\n\n", elapsed/time.Microsecond)
 }
 
 func getLatest() (int, int) {

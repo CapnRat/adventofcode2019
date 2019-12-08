@@ -29,7 +29,7 @@ type Solver struct{}
 func (s *Solver) Solve () string {
 	program := star_02_1.ReadProgramFromFile(file)
 
-	RunProgram(program)
+	RunProgram(program, 1)
 
 	return "Program Done"
 }
@@ -56,7 +56,9 @@ func ParseInstruction (instruction int) (opCode OpCode, modes []ParamMode, lengt
 	return
 }
 
-func RunProgram(program []int) {
+func RunProgram(program []int, inputs ...int) {
+	// input pointer
+	inputPtr := 0
 	// instruction pointer
 	i := 0
 	for true {
@@ -79,13 +81,18 @@ func RunProgram(program []int) {
 				program[program[i+3]] = left * right
 			}
 		case OpIn:
-			fmt.Print("Input: ")
-			in := 0
-			 _, err := fmt.Scanf("%d\n", &in)
-			 if err != nil {
-			 	fmt.Println("failed to parse input")
-			 }
-			program[program[i+1]] = in
+			if len(inputs) > inputPtr {
+				program[program[i+1]] = inputs[inputPtr]
+				inputPtr++
+			} else {
+				fmt.Print("Input: ")
+				in := 0
+				_, err := fmt.Scanf("%d\n", &in)
+				if err != nil {
+					fmt.Println("failed to parse input")
+				}
+				program[program[i+1]] = in
+			}
 		case OpOut:
 			out := program[i+1]
 			if modes[0] == PositionMode {
