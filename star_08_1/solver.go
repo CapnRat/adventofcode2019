@@ -14,9 +14,9 @@ const file = "star_08_1/input"
 type Layer []int
 
 type Image struct{
-	width int
-	height int
-	layers []Layer
+	Width  int
+	Height int
+	Layers []Layer
 }
 
 type Solver struct{}
@@ -32,16 +32,16 @@ func (s *Solver) Solve() string {
 		layer int
 	}
 	z := zeros{math.MaxInt64, -1}
-	for l := 0; l < len(img.layers); l++{
-		zeroCount := img.layers[l].CountInt(0)
+	for l := 0; l < len(img.Layers); l++{
+		zeroCount := img.Layers[l].CountInt(0)
 		if zeroCount < z.count {
 			z.count = zeroCount
 			z.layer = l
 		}
 	}
 
-	ones := img.layers[z.layer].CountInt(1)
-	twos := img.layers[z.layer].CountInt(2)
+	ones := img.Layers[z.layer].CountInt(1)
+	twos := img.Layers[z.layer].CountInt(2)
 
 	return strconv.Itoa(ones * twos)
 }
@@ -52,24 +52,24 @@ func (layer Layer) CountInt(digit int) int {
 }
 
 func (img *Image) DecodeImage(data []byte) {
-	if len(data) % (img.width * img.height) != 0 {
+	if len(data) % (img.Width* img.Height) != 0 {
 		panic("data does not fit into image")
 	}
 
-	numLayers := len(data) / (img.width * img.height)
+	numLayers := len(data) / (img.Width * img.Height)
 
-	img.layers = make([]Layer, numLayers)
+	img.Layers = make([]Layer, numLayers)
 	dataIndex := 0
 	for l := 0; l < numLayers; l++ {
-		layer := make(Layer, img.width * img.height)
-		for y := 0; y < img.height; y++ {
-			for x := 0; x < img.width; x++ {
-				layerIndex := y * img.width + x
+		layer := make(Layer, img.Width* img.Height)
+		for y := 0; y < img.Height; y++ {
+			for x := 0; x < img.Width; x++ {
+				layerIndex := y * img.Width + x
 				layer[layerIndex], _ = strconv.Atoi(string(data[dataIndex]))
 				dataIndex++
 			}
 		}
-		img.layers[l] = layer
+		img.Layers[l] = layer
 	}
 }
 

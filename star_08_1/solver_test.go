@@ -25,9 +25,9 @@ func TestImage_DecodeImage(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			img := &Image{
-				width:  tt.fields.width,
-				height: tt.fields.height,
-				layers: tt.fields.layers,
+				Width:  tt.fields.width,
+				Height: tt.fields.height,
+				Layers: tt.fields.layers,
 			}
 			img.DecodeImage(tt.args.data)
 			if !reflect.DeepEqual(*img, tt.want) {
