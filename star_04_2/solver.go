@@ -40,7 +40,6 @@ func (s *Solver) Solve () string {
 }
 
 func AreDigitsValid (digits []int) bool {
-	areRaising := true
 	groupCounts := make(map[int]int)
 
 	for i, d := range digits {
@@ -49,7 +48,7 @@ func AreDigitsValid (digits []int) bool {
 			continue
 		}
 		lastDigit := digits[i-1]
-		if d < lastDigit { areRaising = false }
+		if d < lastDigit { return false }
 		if _, ok := groupCounts[d]; ok {
 			groupCounts[d]++
 		} else {
@@ -64,5 +63,5 @@ func AreDigitsValid (digits []int) bool {
 		}
 	}
 
-	return areRaising && hasPair
+	return hasPair
 }
