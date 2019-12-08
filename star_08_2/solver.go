@@ -33,7 +33,7 @@ func (s *Solver) Solve() string {
 				}
 			}
 		}
-		fmt.Print("\r\n")
+		fmt.Println()
 	}
 
 	return "Done"
