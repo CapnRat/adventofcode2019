@@ -42,7 +42,10 @@ func SolveWithProgram(program []int, args []int) string {
 	input := make(chan int)
 	output := make(chan int)
 
-	go RunProgram(program, input, output)
+	go func() {
+		defer close(output)
+		RunProgram(program, input, output)
+	}()
 
 	// initial input to get things rolling
 	go func() {
@@ -86,8 +89,6 @@ func ParseInstruction (instruction int) (opCode OpCode, modes []ParamMode, lengt
 }
 
 func RunProgram(program []int, input <-chan int, output chan<- int) {
-	defer close(output)
-
 	// load program into memory
 	memory := make(map[int]int)
 	for i, instruction := range program {
