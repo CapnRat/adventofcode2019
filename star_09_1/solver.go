@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-const file = "star_09_1/input"
+const File = "star_09_1/input"
 
 const (
 	OpNul = iota
@@ -33,7 +33,7 @@ type ParamMode int
 type Solver struct{}
 
 func (s *Solver) Solve () string {
-	program := star_02_1.ReadProgramFromFile(file)
+	program := star_02_1.ReadProgramFromFile(File)
 
 	return SolveWithProgram(program, []int{1})
 }
