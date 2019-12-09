@@ -64,7 +64,7 @@ func SolveWithProgram(program []int, args []int) string {
 func ParseInstruction (instruction int) (opCode OpCode, modes []ParamMode, length int) {
 	opCode = OpCode(instruction % 100)
 	switch opCode {
-	case OpNul:
+	case OpNul, OpHalt:
 		length = 1
 	case OpAdd, OpMul, OpLess, OpEql:
 		arg1Mode := ParamMode(instruction % 1000 / 100)
@@ -72,21 +72,15 @@ func ParseInstruction (instruction int) (opCode OpCode, modes []ParamMode, lengt
 		arg3Mode := ParamMode(instruction % 100000 / 10000)
 		modes = []ParamMode{arg1Mode, arg2Mode, arg3Mode}
 		length = 4
-	case OpIn:
-		arg1Mode := ParamMode(instruction % 1000 / 100)
-		modes = []ParamMode{arg1Mode}
-		length = 2
-	case OpOut, OpRBOff:
-		arg1Mode := ParamMode(instruction % 1000 / 100)
-		modes = []ParamMode{arg1Mode}
-		length = 2
 	case OpJmpT, OpJmpF:
 		arg1Mode := ParamMode(instruction % 1000 / 100)
 		arg2Mode := ParamMode(instruction % 10000 / 1000)
 		modes = []ParamMode{arg1Mode, arg2Mode}
-		length = 0
-	case OpHalt:
-		length = 1
+		length = 3
+	case OpIn, OpOut, OpRBOff:
+		arg1Mode := ParamMode(instruction % 1000 / 100)
+		modes = []ParamMode{arg1Mode}
+		length = 2
 	}
 	return
 }
@@ -167,8 +161,7 @@ func RunProgram(program []int, input <-chan int, output chan<- int) {
 			}
 			if (op == OpJmpT && test != 0) || (op == OpJmpF && test == 0) {
 				i = value
-			} else {
-				length = 3
+				length = 0
 			}
 		case OpRBOff:
 			offset := memory[i+1]
