@@ -77,13 +77,16 @@ func (s *Solver) Solve() string {
 			} else {
 				input <- 0
 			}
-			time.Sleep(10 * time.Millisecond)
 		}
 		if y > maxY {
 			maxY = y
 		}
 		goterm.MoveCursor(1, maxY + 3)
 		goterm.Flush()
+
+		if TileID(id) == HorizPaddle {
+			time.Sleep(10 * time.Millisecond)
+		}
 	}
 }
 
