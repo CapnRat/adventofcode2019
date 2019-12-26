@@ -12,9 +12,9 @@ import (
 type Solver struct {}
 
 type Moon struct {
-	name string
-	x, y, z int
-	velx, vely, velz int
+	name             string
+	X, Y, Z          int
+	Velx, Vely, Velz int
 }
 
 var MoonNames = []string{"Io", "Europa", "Ganymede", "Callisto"}
@@ -35,8 +35,8 @@ func SolveForInput(path string, steps int) int {
 
 func CalculateEnergy(moons []Moon) (energy int) {
 	for _, moon := range moons {
-		pot := star_03_1.Abs(moon.x) + star_03_1.Abs(moon.y) + star_03_1.Abs(moon.z)
-		kin := star_03_1.Abs(moon.velx) + star_03_1.Abs(moon.vely) + star_03_1.Abs(moon.velz)
+		pot := star_03_1.Abs(moon.X) + star_03_1.Abs(moon.Y) + star_03_1.Abs(moon.Z)
+		kin := star_03_1.Abs(moon.Velx) + star_03_1.Abs(moon.Vely) + star_03_1.Abs(moon.Velz)
 		energy += pot * kin
 	}
 	return
@@ -54,29 +54,29 @@ func SimulateMoons(moons []Moon) {
 		moon := &moons[i]
 		for j := i + 1; j < len(moons); j++ {
 			other := &moons[j]
-			if moon.x < other.x {
-				moon.velx++
-				other.velx--
+			if moon.X < other.X {
+				moon.Velx++
+				other.Velx--
 			}
-			if moon.x > other.x {
-				moon.velx--
-				other.velx++
+			if moon.X > other.X {
+				moon.Velx--
+				other.Velx++
 			}
-			if moon.y < other.y {
-				moon.vely++
-				other.vely--
+			if moon.Y < other.Y {
+				moon.Vely++
+				other.Vely--
 			}
-			if moon.y > other.y {
-				moon.vely--
-				other.vely++
+			if moon.Y > other.Y {
+				moon.Vely--
+				other.Vely++
 			}
-			if moon.z < other.z {
-				moon.velz++
-				other.velz--
+			if moon.Z < other.Z {
+				moon.Velz++
+				other.Velz--
 			}
-			if moon.z > other.z {
-				moon.velz--
-				other.velz++
+			if moon.Z > other.Z {
+				moon.Velz--
+				other.Velz++
 			}
 		}
 	}
@@ -84,9 +84,9 @@ func SimulateMoons(moons []Moon) {
 	// Update Positions
 	for i, _ := range moons {
 		moon := &moons[i]
-		moon.x += moon.velx
-		moon.y += moon.vely
-		moon.z += moon.velz
+		moon.X += moon.Velx
+		moon.Y += moon.Vely
+		moon.Z += moon.Velz
 	}
 }
 
