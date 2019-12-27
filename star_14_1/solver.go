@@ -14,14 +14,14 @@ type Element string
 type Ingredients map[Element]int
 
 type Recipe struct {
-	in    Ingredients
-	out   Element
-	count int
+	In       Ingredients
+	out      Element
+	OutCount int
 }
 
 type Batch struct {
-	element Element
-	count   int
+	Element Element
+	Count   int
 }
 
 type Recipes map[Element]Recipe
@@ -32,43 +32,50 @@ func (s *Solver) Solve() string {
 	return strconv.Itoa(SolveFromInput(File))
 }
 
-func SolveFromInput(path string) int {
-	recipes := ReadRecipesFromInput(path)
-
-	need := []Batch{{"FUEL", 1}}
+func CalculateOreForFuel(recipes Recipes, fuel int) int {
+	need := []Batch{{"FUEL", fuel}}
 	pool := make(map[Element]int)
 	ore := 0
 
 	for len(need) > 0 {
 		batch := need[0]
 
-		batch.count -= pool[batch.element]
-		if batch.count <= 0 {
-			pool[batch.element] = -batch.count
+		batch.Count -= pool[batch.Element]
+		if batch.Count <= 0 {
+			pool[batch.Element] = -batch.Count
 			need = need[1:]
 			continue
 		}
-		pool[batch.element] = 0
+		pool[batch.Element] = 0
 
-		if batch.element == "ORE" {
-			ore += batch.count
+		if batch.Element == "ORE" {
+			ore += batch.Count
 			need = need[1:]
 			continue
 		}
 
-		recipe := recipes[batch.element]
-		for element, count := range recipe.in {
-			need = append(need, Batch{element, count})
+		recipe := recipes[batch.Element]
+		recipeCount := batch.Count / recipe.OutCount
+		if batch.Count%recipe.OutCount > 0 {
+			recipeCount++
 		}
-		batch.count -= recipe.count
+		for element, count := range recipe.In {
+			need = append(need, Batch{Element: element, Count: count * recipeCount})
+		}
+		batch.Count -= recipe.OutCount * recipeCount
 		need[0] = batch
-		if batch.count <= 0 {
-			pool[batch.element] -= batch.count
+		if batch.Count <= 0 {
+			pool[batch.Element] -= batch.Count
 			need = need[1:]
 		}
 	}
 
 	return ore
+}
+
+func SolveFromInput(path string) int {
+	recipes := ReadRecipesFromInput(path)
+	return CalculateOreForFuel(recipes, 1)
 }
 
 func ReadRecipesFromInput(path string) Recipes {
@@ -96,7 +103,7 @@ func ParseLine(line string) Recipe {
 		panic("failed to parse line")
 	}
 
-	recipe := Recipe{ in: make(Ingredients) }
+	recipe := Recipe{ In: make(Ingredients) }
 
 	for i, match := range matches {
 		matchElement := Element(match[2])
@@ -106,9 +113,9 @@ func ParseLine(line string) Recipe {
 		}
 		if i == len(matches) - 1 {
 			recipe.out = matchElement
-			recipe.count = matchCount
+			recipe.OutCount = matchCount
 		} else {
-			recipe.in[matchElement] = matchCount
+			recipe.In[matchElement] = matchCount
 		}
 	}
 

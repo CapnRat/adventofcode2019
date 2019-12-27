@@ -15,28 +15,28 @@ func TestParseLine(t *testing.T) {
 		want Recipe
 	}{
 		{"Example", args{"10 ORE => 10 A"}, Recipe{
-			in:    Ingredients {
+			In:    Ingredients {
 				"ORE": 10,
 			},
-			out:   "A",
-			count: 10,
+			out:      "A",
+			OutCount: 10,
 		}},
 		{"Example", args{"7 A, 1 B => 1 C"}, Recipe{
-			in:    Ingredients {
+			In:    Ingredients {
 				"A": 7,
 				"B": 1,
 			},
-			out:   "C",
-			count: 1,
+			out:      "C",
+			OutCount: 1,
 		}},
 		{"Example", args{"2 AB, 3 BC, 4 CA => 1 FUEL"}, Recipe{
-			in:    Ingredients {
+			In:    Ingredients {
 				"AB": 2,
 				"BC": 3,
 				"CA": 4,
 			},
-			out:   "FUEL",
-			count: 1,
+			out:      "FUEL",
+			OutCount: 1,
 		}},
 	}
 	for _, tt := range tests {
